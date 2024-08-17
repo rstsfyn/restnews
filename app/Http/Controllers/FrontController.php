@@ -35,6 +35,21 @@ class FrontController extends Controller
         // ->get();
         ->first();
 
-        return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 'bannerads'));
+        $entertaiment_articles = ArticleNews::whereHas('category', function ($query){
+            $query->where('name', 'Entertaiment');
+        })
+        ->where('is_featured', 'not_featured')
+        ->latest()
+        ->take(6)
+        ->get();
+        
+        $entertaiment_featured_articles = ArticleNews::whereHas('category', function ($query){
+            $query->where('name', 'Entertaiment');
+        })
+        ->where('is_featured', 'featured')
+        ->inRandomOrder()
+        ->first();
+
+        return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 'bannerads', 'entertaiment_articles', 'entertaiment_featured_articles'));
     }
 }
