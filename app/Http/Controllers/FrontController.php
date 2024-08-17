@@ -50,6 +50,39 @@ class FrontController extends Controller
         ->inRandomOrder()
         ->first();
 
-        return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 'bannerads', 'entertaiment_articles', 'entertaiment_featured_articles'));
+        $business_articles = ArticleNews::whereHas('category', function ($query){
+            $query->where('name', 'Business');
+        })
+        ->where('is_featured', 'not_featured')
+        ->latest()
+        ->take(6)
+        ->get();
+
+        $business_featured_articles = ArticleNews::whereHas('category', function ($query){
+            $query->where('name', 'Business');
+        })
+        ->where('is_featured', 'featured')
+        ->inRandomOrder()
+        ->first();
+
+        $automotive_articles = ArticleNews::whereHas('category', function ($query) {
+            $query->where('name', 'Automotive');  
+        })
+        ->where('is_featured', 'not_featured')
+        ->latest()
+        ->take(6)
+        ->get();
+
+        $automotive_featured_articles = ArticleNews::whereHas('category', function ($query) {
+            $query->where('name', 'Automotive');
+        })
+        ->where('is_featured', 'featured')
+        ->inRandomOrder()
+        ->first();
+
+        return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 
+        'bannerads', 'entertaiment_articles', 'entertaiment_featured_articles', 'business_articles', 'business_featured_articles',
+        'automotive_articles', 'automotive_featured_articles',
+    ));
     }
 }
