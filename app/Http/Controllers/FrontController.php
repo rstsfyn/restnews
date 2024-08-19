@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filament\Resources\CategoryResource;
 use App\Models\ArticleNews;
 use App\Models\Author;
 use App\Models\BannerAdvertisement;
@@ -84,5 +85,18 @@ class FrontController extends Controller
         'bannerads', 'entertaiment_articles', 'entertaiment_featured_articles', 'business_articles', 'business_featured_articles',
         'automotive_articles', 'automotive_featured_articles',
     ));
+    }
+
+    public function category(Category $category) {
+        $categories = Category::all();
+
+        $bannerads = BannerAdvertisement::where('is_active', 'active')
+        ->where('type', 'banner')
+        ->inRandomOrder()
+        // ->take(1)
+        // ->get();
+        ->first();
+
+        return view('front.category', compact('category', 'categories', 'bannerads'));
     }
 }
