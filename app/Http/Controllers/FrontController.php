@@ -143,13 +143,25 @@ class FrontController extends Controller
         // ->get();
         ->first();
         
-        $squareads = BannerAdvertisement::where('is_active', 'active')
-        ->where('type', 'square')
+        $squareads = BannerAdvertisement::where('type', 'square')
+        ->where('is_active', 'active')
         ->inRandomOrder()
-        // ->take(1)
-        // ->get();
-        ->first();
+        ->take(2)
+        ->get();
 
-        return view('front.details', compact('articleNews', 'categories', 'articles', 'bannerads', 'squareads'));
+        if ($squareads->count()<2) {
+            $squareads_1 = $squareads->first();
+            $squareads_2 = null;
+        } else {
+            $squareads_1 = $squareads->get(0);
+            $squareads_2 = $squareads->get(1);
+        }
+
+        $author_news = ArticleNews::where('author_id', $articleNews->author_id) 
+        ->where('id', '!=', $articleNews->id)
+        ->inRandomOrder()
+        ->get();
+
+        return view('front.details', compact('articleNews', 'categories', 'articles', 'bannerads', 'squareads_1', 'squareads_2', 'author_news'));
     }
 }

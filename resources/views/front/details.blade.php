@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </a>
-                <div id="Rating" class="flex items-center gap-1">
+                <!-- <div id="Rating" class="flex items-center gap-1">
                     <div class="flex items-center">
                         <div class="w-4 h-4 flex shrink-0">
                             <img src="assets/images/icons/Star 1.svg" alt="star">
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <p class="font-semibold text-xs leading-[18px]">(12,490)</p>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="w-full h-[500px] flex shrink-0 overflow-hidden">
@@ -61,8 +61,8 @@
         </article>
         <div class="side-bar flex flex-col w-[300px] shrink-0 gap-10">
             <div class="ads flex flex-col gap-3 w-full">
-                <a href="{{$squareads->link}}">
-                    <img src="{{Storage::url($squareads->thumbnail)}}" class="object-contain w-full h-full" alt="ads" />
+                <a href="{{$squareads_1->link}}">
+                    <img src="{{Storage::url($squareads_1->thumbnail)}}" class="object-contain w-full h-full" alt="ads" />
                 </a>
                 <p class="font-medium text-sm leading-[21px] text-[#A3A6AE] flex gap-1">
                     Our Advertisement <a href="#" class="w-[18px] h-[18px]"><img
@@ -71,49 +71,28 @@
             </div>
             <div id="More-from-author" class="flex flex-col gap-4">
                 <p class="font-bold">More From Author</p>
-                <a href="" class="card-from-author">
+                @forelse($author_news as $item_news)
+                <a href="{{route('front.details', $item_news->slug)}}" class="card-from-author">
                     <div
                         class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[14px] flex gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
                         <div class="w-[70px] h-[70px] flex shrink-0 overflow-hidden rounded-2xl">
-                            <img src="assets/images/thumbnails/th-demonstration.png" class="object-cover w-full h-full"
+                            <img src="{{Storage::url($item_news->thumbnail)}}" class="object-cover w-full h-full"
                                 alt="thumbnail">
                         </div>
                         <div class="flex flex-col gap-[6px]">
-                            <p class="line-clamp-2 font-bold">Gaya pakaian pernikahan artis Lorem, ipsum dolor.</p>
-                            <p class="text-xs leading-[18px] text-[#A3A6AE]">12 Jun, 2024 • Entertainment</p>
+                            <p class="line-clamp-2 font-bold">{{substr($item_news->name, 0, 50)}}{{strlen($item_news->name)>50?'...' : ''}}</p>
+                            <p class="text-xs leading-[18px] text-[#A3A6AE]">{{$item_news->created_at->format('M d, Y')}} • {{$item_news->category->name}}</p>
                         </div>
                     </div>
                 </a>
-                <a href="" class="card-from-author">
-                    <div
-                        class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[14px] flex gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-                        <div class="w-[70px] h-[70px] flex shrink-0 overflow-hidden rounded-2xl">
-                            <img src="assets/images/thumbnails/th-cyclist.png" class="object-cover w-full h-full"
-                                alt="thumbnail">
-                        </div>
-                        <div class="flex flex-col gap-[6px]">
-                            <p class="line-clamp-2 font-bold">Gaya pakaian pernikahan artis Lorem, ipsum dolor.</p>
-                            <p class="text-xs leading-[18px] text-[#A3A6AE]">12 Jun, 2024 • Entertainment</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="" class="card-from-author">
-                    <div
-                        class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[14px] flex gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-                        <div class="w-[70px] h-[70px] flex shrink-0 overflow-hidden rounded-2xl">
-                            <img src="assets/images/thumbnails/model.png" class="object-cover w-full h-full"
-                                alt="thumbnail">
-                        </div>
-                        <div class="flex flex-col gap-[6px]">
-                            <p class="line-clamp-2 font-bold">Gaya pakaian pernikahan artis Lorem, ipsum dolor.</p>
-                            <p class="text-xs leading-[18px] text-[#A3A6AE]">12 Jun, 2024 • Entertainment</p>
-                        </div>
-                    </div>
-                </a>
+                @empty
+                <p>Belum ada artikel yang ditulis lagi</p>
+                @endforelse
+
             </div>
             <div class="ads flex flex-col gap-3 w-full">
-                <a href="{{$squareads->link}}">
-                    <img src="{{Storage::url($squareads->thumbnail)}}" class="object-contain w-full h-full" alt="ads" />
+                <a href="{{$squareads_2->link}}">
+                    <img src="{{Storage::url($squareads_2->thumbnail)}}" class="object-contain w-full h-full" alt="ads" />
                 </a>
                 <p class="font-medium text-sm leading-[21px] text-[#A3A6AE] flex gap-1">
                     Our Advertisement <a href="#" class="w-[18px] h-[18px]"><img
@@ -144,60 +123,28 @@
                 </h2>
             </div>
             <div class="grid grid-cols-3 gap-[30px]">
-                <a href="details.html" class="card-news">
+                @forelse($articles as $article)
+                <a href="{{route('front.details', $article->slug)}}" class="card-news">
                     <div
                         class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
                         <div
                             class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
                             <p
-                                class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
-                                SPORT</p>
-                            <img src="assets/images/thumbnails/th-cyclist.png" class="object-cover w-full h-full"
+                                class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px] uppercase">
+                                {{$article->category->name}}
+                            </p>
+                            <img src="{{Storage::url($article->thumbnail)}}" class="object-cover w-full h-full"
                                 alt="thumbnail" />
                         </div>
                         <div class="card-info flex flex-col gap-[6px]">
-                            <h3 class="font-bold text-lg leading-[27px]">Bersepeda dapat membuat diri menjadi lebih baik
-                                lagi</h3>
-                            <p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
+                            <h3 class="font-bold text-lg leading-[27px]">{{substr($article->name, 0, 70)}}{{strlen($article->name)>70?'...' : ''}}</h3>
+                            <p class="text-sm leading-[21px] text-[#A3A6AE]">{{$article->created_at->format('M d, Y')}}</p>
                         </div>
                     </div>
                 </a>
-                <a href="details.html" class="card-news">
-                    <div
-                        class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
-                        <div
-                            class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-                            <p
-                                class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
-                                ENTERTAINMENT</p>
-                            <img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full"
-                                alt="thumbnail" />
-                        </div>
-                        <div class="card-info flex flex-col gap-[6px]">
-                            <h3 class="font-bold text-lg leading-[27px]">Beberapa artis ini merayakan ultah di tengah
-                                hutan raya</h3>
-                            <p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="details.html" class="card-news">
-                    <div
-                        class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
-                        <div
-                            class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-                            <p
-                                class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">
-                                POLITIC</p>
-                            <img src="assets/images/thumbnails/th-demonstration.png" class="object-cover w-full h-full"
-                                alt="thumbnail" />
-                        </div>
-                        <div class="card-info flex flex-col gap-[6px]">
-                            <h3 class="font-bold text-lg leading-[27px]">Terjadi demo pada ibu kota jakarta membuat
-                                macet parah</h3>
-                            <p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-                        </div>
-                    </div>
-                </a>
+                @empty
+                <p>Belum ada artikel terbaru</p>
+                @endforelse
             </div>
         </div>
     </section>
@@ -211,4 +158,5 @@
 @endpush
 @push('after-scripts')
 <script src="js/two-lines-text.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 @endpush
